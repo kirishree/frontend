@@ -1,0 +1,70 @@
+<style>
+    * {
+        font-family: "Inter", sans-serif;
+    }
+
+    .heading {
+        margin: 0 0 1rem 0;
+        color: #1E376D;
+    }
+
+    .routing-table {
+        border-collapse: collapse;
+        border-radius: 5px;
+    }
+
+    .table-heading {
+        padding: 0.8rem;
+        color: #1E376D;
+        background: #F1F3F8;
+        border: none;
+        font-weight: 500;
+    }
+
+    .table-body {
+        color: #1E376D;
+        opacity: 0.9;
+        width: 1117px;
+        padding: 0.8rem 0.6rem;
+        border: none;
+        background: #f1f4f95c;
+    }
+
+    .table-row {
+        margin: 0;
+    }
+
+    .data-rows:hover {
+        background: #dfebffb4;
+    }
+</style>
+<h2 class="heading">Routing Table</h2>
+<table class="routing-table">
+    <thead class="table-heading">
+
+        <tr class="table-row">
+            <th class="table-heading">Destination</th>
+            <th class="table-heading">Gateway</th>
+            <th class="table-heading">Protocol</th>
+            <th class="table-heading">Interface</th>
+            <th class="table-heading">Metric</th>
+            <!-- Add more inline styles as needed -->
+        </tr>
+
+    </thead>
+    <tbody class="table-body">
+
+        {% for routes in routing_table %}
+        <tr class="table-row data-rows">
+            <td class="table-body">{{ routes.destination }}</td>
+            <td class="table-body">{{ routes.gateway }}</td>
+            <td class="table-body">{{ routes.protocol }}</td>
+            <td class="table-body">{{ routes.interface_name }}</td>
+            <td class="table-body">{{ routes.metric }}</td>
+
+            <!-- Add more inline styles as needed -->
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>

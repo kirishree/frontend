@@ -1,0 +1,12 @@
+[Unit]
+Description=ReachEdge Local WebGUI service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/reach/edgegui/
+ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 0.0.0.0:5005 edgegui.wsgi:application
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
