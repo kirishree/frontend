@@ -238,6 +238,7 @@ def register_post(form):
                             json.dump(reg_data, f)
                             f.close()
                         os.system("systemctl enable reachlink")
+                        os.system("systemctl enable linkbe")
                         os.system("systemctl start reachlink")
                         return "success"
                     else:
