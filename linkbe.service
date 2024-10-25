@@ -1,0 +1,13 @@
+[Unit]
+Description=ReachLink Backend
+After=network.target
+
+[Service]
+User=root
+Group=sudo
+WorkingDirectory=/etc/reach/linkbe/
+ExecStart=/etc/reach/linkbe/start.sh
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
