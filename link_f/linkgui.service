@@ -1,0 +1,12 @@
+[Unit]
+Description=Web GUI for ReachLink
+After=network.target
+
+[Service]
+User=root
+Group=sudo
+WorkingDirectory=/etc/reach/linkgui/
+ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 0.0.0.0:5005 linkgui.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

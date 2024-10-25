@@ -1,0 +1,200 @@
+<style>
+    * {
+        font-family: "Inter", sans-serif;
+    }
+
+    .heading {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 33px;
+        color: #1E376D;
+    }
+
+    .navbar {
+        display: flex;
+        background-color: #ffff;
+        margin: 1rem 0 2rem 0;
+    }
+
+    .navbar li {
+        list-style: none;
+        margin-right: 1rem;
+    }
+
+    .navbar li a {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+        line-height: 25px;
+        color: #1E376D;
+    }
+
+    /* Hide all sections initially */
+    .tab-content {
+        display: none;
+    }
+
+    /* Show the selected tab content */
+    .active {
+        display: block;
+    }
+
+    /* Style for the active tab with underline */
+    .navlink.active {
+        text-decoration: underline;
+    }
+
+    .ping-output-text {
+        box-sizing: border-box;
+        background: rgba(216, 223, 235, 0.37);
+        border: 1px solid rgba(30, 55, 109, 0.45);
+        border-radius: 10px;
+        height: 300px;
+        width: 100%;
+        font-size: 18px;
+        line-height: 25px;
+        color: #1E376D;
+    }
+
+    /* Style for the container of input and button */
+    .input-container {
+        display: flex;
+        align-items: left;
+        margin: 0 auto;
+    }
+
+    /* Style for the input box */
+    .input-container input[type="text"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+    }
+
+    /* Style for the submit button */
+    .input-container button {
+        padding: 10px 20px;
+        background: #1E376D;
+        color: white;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .submitbtn {
+        background-color: #1E376D;
+        color: white;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+    }
+</style>
+<h2 class="heading">Diagnostics</h2>
+<!-- Navigation Bar -->
+<div class="navbar">
+    <li><a class="navlink" data-tab="pinghost">Ping host</a></li>
+    <li><a class="navlink" data-tab="traceroute">Trace Route</a></li>
+    <li><a class="navlink" data-tab="restart">Restart</a></li>
+</div>
+
+<!-- Tab Content for Ping Host -->
+<div id="pinghost" class="tab-content active">
+
+    <form id="ping-form" method="post">
+        {% csrf_token %}
+        <div class="input-container">
+            <input type="text" id="host-ip" name="host_ip" placeholder="Enter host IP" required>
+
+            <!-- Submit button -->
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    <br><br>
+    <textarea id="ping-output" class="ping-output-text"></textarea>
+</div>
+
+<div id="traceroute" class="tab-content active"></div>
+    
+    <form id="traceroute-form" method="post">
+        {% csrf_token %}
+        <div class="input-container">
+            <!-- Input field for host IP -->
+            <input type="text" id="host-ip" name="host_ip" placeholder="Enter host IP" required>
+    
+            <!-- Submit button -->
+            <button type="submit" >Submit</button>
+        </div>
+    </form>
+    <br><br> 
+    <textarea id="traceroute-output" class="ping-output-text"></textarea>
+</div>
+
+<div id="restart" class="tab-content">
+    <br><br>
+    <a href="{% url 'restart' %}" class="submitbtn">Restart</a>
+</div>
+
+<script>
+    document.querySelectorAll('.navlink').forEach(link => {
+        link.addEventListener('click', function () {
+            const target = this.getAttribute('data-tab');
+
+            document.querySelectorAll('.navlink').forEach(nav => {
+                nav.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            document.getElementById(target).classList.add('active');
+
+            this.classList.add('active');
+        });
+    });
+
+    document.getElementById("ping-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        fetch("/ping", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                var lines = data.split("\n");
+                document.getElementById("ping-output").value = lines.join("\n");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+    document.getElementById("traceroute-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        fetch("/traceroute", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            var lines = data.split("\n");
+            document.getElementById("traceroute-output").value = lines.join("\n");
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    });
+</script>

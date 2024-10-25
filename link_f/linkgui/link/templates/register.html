@@ -1,0 +1,62 @@
+<style>
+    * {
+        font-family: "Inter", sans-serif;
+    }
+
+    .heading {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 33px;
+        color: #1E376D;
+    }
+
+    .form-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        flex: 1 1 90%;
+        margin: 10px;
+    }
+
+    .form-group label {
+        opacity: 90%;
+        color: #1E376D;
+        margin-bottom: 4px;
+    }
+
+    .form-group input {
+        display: block;
+        margin-bottom: 4px;
+        color: #1E376D;
+        padding: 0.7rem;
+    }
+
+    .submitbtn {
+        background-color: #1E376D;
+        color: white;
+        border: none;
+        cursor: pointer;
+        width: 97%;
+        border-radius: 5px;
+        padding: 0.6rem;
+        margin: 1rem;
+    }
+</style>
+<h2 class="heading">Register with ReachLink HUB</h2>
+<form method="post" action="{% url 'contact' tab_name='register' %}">
+    {% csrf_token %}
+    <div class="form-container">
+        <div class="form-group">
+            <label for="id_Registered_mail">Registered Mail ID</label>
+            {{ form.Registered_mail }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password</label>
+            {{ form.password }}
+        </div>
+    </div>
+    <button type="submit" name="register" class="submitbtn">Submit</button>
+</form>
