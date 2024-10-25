@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReachLink</title>
+    <link rel="icon" href="https://assets.cloudetel.com/cloudeteldev/assets/logo/link.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Add your custom styles for tabs and content area here */
+        label {
+            font-family: "Inter", sans-serif;
+            margin-bottom: 0.3rem;
+            display: block;
+            color: #1E376D;
+            font-size: 0.9rem;
+        }
+
+        .logo {
+            float: left;
+            margin-right: 10px;
+        }
+
+        .title {
+            font-family: "Inter", sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            margin: 0;
+        }
+
+        .login-entry {
+            flex: 1 1 0%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-entry input,
+        .login-entry button {
+            box-sizing: border-box;
+            width: 30rem;
+            height: 40px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: block;
+        }
+
+        /* Input-specific styles */
+        .login-entry input {
+            border: 1px solid rgba(30, 55, 109, 0.18);
+            background: #FFFFFF;
+            margin-bottom: 15px;
+        }
+
+        .login-entry button {
+            background-color: #1E376D;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .login-page {
+            display: flex;
+            height: 100vh;
+        }
+
+        .login-sidebar {
+            flex: 1 1 0%;
+            background: url(https://assets.cloudetel.com/cloudeteldev/assets/background-image.png) center center / cover no-repeat;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        .login-sidebar-title {
+            margin: 0px;
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 2.125rem;
+            line-height: 1.235;
+            letter-spacing: 0.00735em;
+        }
+
+        .para {
+            margin: 0px;
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.5;
+            letter-spacing: 0.00938em;
+        }
+
+        .logo-style {
+            display: block;
+            margin: 4rem auto;
+        }
+
+        .login-username {
+            display: inline-flex;
+            flex-direction: column;
+            position: relative;
+            min-width: 0px;
+            padding: 0px;
+            margin: 16px 0px 8px;
+            border: 0px;
+            vertical-align: top;
+            width: 100%;
+        }
+
+        .login-password {
+            display: inline-flex;
+            flex-direction: column;
+            position: relative;
+            min-width: 0px;
+            padding: 0px;
+            margin: 16px 0px 8px;
+            border: 0px;
+            vertical-align: top;
+            width: 100%;
+        }
+
+        .label-username {
+            color: rgba(0, 0, 0, 0.6);
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.4375em;
+            letter-spacing: 0.00938em;
+            display: block;
+            transform-origin: left top;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 24px);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            transform: translate(14px, 16px) scale(1);
+            z-index: 1;
+            pointer-events: none;
+            padding: 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: color 200ms cubic-bezier(0, 0, 0.2, 1), transform 200ms cubic-bezier(0, 0, 0.2, 1), max-width 200ms cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        .user {
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.4375em;
+            letter-spacing: 0.00938em;
+            color: rgba(0, 0, 0, 0.87);
+            box-sizing: border-box;
+            cursor: text;
+            display: inline-flex;
+            -webkit-box-align: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="login-sidebar">
+            <h1 class="login-sidebar-title">
+                Welcome to
+                <br>
+                Cloud Etel
+            </h1>
+            <br>
+            <p class="para">Log In to Access Dashboard</p>
+        </div>
+        <div class="login-entry">
+            <div class="login-box">
+                <img src="https://assets.cloudetel.com/cloudeteldev/assets/logo/link-dark.png" alt="Logo" width=160
+                    height=50 class="logo-style">
+                <form method='post'>
+                    {% csrf_token %}
+
+                    <!-- Username input field with placeholder -->
+                    <div>
+                        <label for="id_username">Username</label>
+                        <input type="text" name="username" placeholder="Username" class="input-field" required
+                            id="id_username">
+                    </div>
+
+                    <!-- Password input field with placeholder -->
+                    <div>
+                        <label for="id_password">Password</label>
+                        <input type="password" name="password" placeholder="********" class="input-field" required
+                            id="id_password">
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
