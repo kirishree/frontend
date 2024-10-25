@@ -1,0 +1,45 @@
+<style>
+    * {
+        font-family: "Inter", sans-serif;
+    }
+
+    .heading {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 33px;
+        color: #1E376D;
+    }
+
+    .dwnbtn {
+        box-sizing: border-box;
+        background: #1E376D;
+        margin-top: 1rem;
+        border-radius: 5px;
+        padding: 0.6rem;
+        display: block;
+        text-decoration: none;
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .content {
+        background: rgba(216, 223, 235, 0.37);
+        border: 1px solid rgba(30, 55, 109, 0.45);
+        border-radius: 10px;
+        display: block;
+        height: 60vh;
+        width: 100%;
+        overflow: scroll;
+    }
+</style>
+<h2 class="heading">Log</h2>
+
+<textarea class="content" disabled>
+    {% for line in logfile_content %}
+        {{ line }}
+    {% endfor %}
+</textarea>
+<div>
+    <a href="{% url 'download_logfile' %}" class="dwnbtn">Download Logfile</a>
+</div>
