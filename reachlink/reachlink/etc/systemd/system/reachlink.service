@@ -1,0 +1,12 @@
+[Unit]
+Description=ReachLink Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/reach/
+ExecStart=/usr/bin/reachlink
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

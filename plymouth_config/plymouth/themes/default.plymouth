@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=ReachLink Spinner Logo
+Description=A theme that features a background with a logo.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/reachlink
+ScriptFile=/usr/share/plymouth/themes/reachlink/reachlink.script

@@ -1,0 +1,12 @@
+/var/log/reachlink.log {
+     rotate 7
+     daily
+     missingok
+     notifempty
+     compress
+     olddir /var/log/
+     sharedscripts
+     postrotate
+        systemctl restart reachlink.service
+     endscript
+}

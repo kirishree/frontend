@@ -1,0 +1,13 @@
+[Unit]
+Description=MAC Update service
+After=network.target
+
+[Service]
+
+User=root
+Group=sudo
+WorkingDirectory=/etc/reach/
+ExecStart=/usr/bin/python3 mac_update.py
+
+[Install]
+WantedBy=multi-user.target
