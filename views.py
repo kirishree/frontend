@@ -327,9 +327,9 @@ def dashboard(request):
                     else:
                         status = True
                 else:
-                    status = False
+                    status = True
             else:
-                status = False                
+                status = True                
             wan_intfc_info = get_wan_info()                    
             with open("/etc/netplan/00-installer-config.yaml", "r") as f:
                 network_config = yaml.safe_load(f)
