@@ -297,9 +297,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Inject the status value from Django to JavaScript
-        const status1 = {{ status|yesno:"true,false" }};  // 'true' if status=True, 'false' if status=False
+        const status1 = JSON.parse('{{ status|json_script:"status" }}');  // Boolean via JSON
 
+        console.log("Status from Django (via JSON):", status1);
         // Select the Register tab element
         const registerTab = document.querySelector('.register-tab');
 
