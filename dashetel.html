@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReachLink</title>
+    <link rel="icon" href="https://assets.cloudetel.com/cloudeteldev/assets/cloudetel_logo.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), #1E376D;
+            border-bottom: 1px solid black;
+            color: white;
+        }
+
+        .btn {
+            background-color: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), #1E376D;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            width: 12rem;
+        }
+
+        .btn:hover {
+
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), #1E376D;
+            cursor: pointer;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            -webkit-box-align: center;
+            align-items: center;
+            margin-block: 2rem;
+            width: 150px;
+            padding-left: 2rem;
+            color: rgb(255, 255, 255);
+        }
+
+        .title {
+            font-family: "Inter", sans-serif;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background-color: #1E376D;
+            display: flex;
+            flex-direction: column;
+            padding-block: 20px;
+        }
+
+        .sidebar ul {
+            flex: 1;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        .tablink {
+            display: block;
+            text-align: left;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+            padding: 15px 30px;
+            margin: 10px;
+        }
+
+        .tablink:hover {
+            background: #1a3164;
+        }
+
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Style for the tab content */
+        .tabcontent {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: rgb(255, 255, 255);
+            text-align: left;
+            height: 80vh;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+
+        .welcome-message {
+            margin-bottom: 1rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 44px;
+            color: #1E376D;
+        }
+
+        /* Box for dynamic content */
+        .dynamic-content {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            margin: 10px;
+        }
+
+        .form-group label {
+            opacity: 90%;
+            color: #1E376D;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            display: block;
+            margin-bottom: 4px;
+            color: #1E376D;
+            padding: 0.7rem;
+        }
+
+        .heading {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 33px;
+            padding: 0.5rem;
+            color: #1a3164;
+        }
+
+        .form-group select {
+            width: 98%;
+            padding: 10px;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            border-radius: 5px;
+            color: #1a3164;
+            border: 1px solid #1e376d38;
+        }
+
+        .form-group input {
+            width: 98%;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            border: 1px solid rgba(30, 55, 109, 0.18);
+            border-radius: 5px;
+        }
+
+        .submitbtn {
+            background-color: #1E376D;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 97%;
+            border-radius: 5px;
+            padding: 0.6rem;
+            margin: 1rem;
+        }
+
+        .logout-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 40px;
+            border-radius: 5px;
+            gap: 10px;
+            background: #FFFFFF;
+        }
+
+        .logout-container:hover {
+            background: #ffeaea;
+        }
+
+        .logout-text {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 25px;
+            color: #CE2127;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="https://assets.cloudetel.com/cloudeteldev/assets/logo/link.png" alt="Cloudetel Logo"
+                class="logo">
+            <ul>
+                <li><a class="tablink" data-tab="configurewan">WAN</a></li>
+                <li><a class="tablink" data-tab="configurelan">LAN</a></li>
+                <li><a class="tablink register-tab" data-tab="register">Register</a></li>
+                <li><a class="tablink" data-tab="routingtable">Routing Table</a></li>
+                <li><a class="tablink" data-tab="timezone">TimeZone</a></li>
+                <li><a class="tablink" data-tab="diagnostics">Diagnostics</a></li>
+                <li><a class="tablink" data-tab="log">Log</a></li>
+            </ul>
+            <a href="{% url 'logout' %}" class="tablink" data-tab="logout">
+                <div class="logout-container">
+                    <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.625 13.5416C15.049 13.5416 14.5834 14.0083 14.5834 14.5832V18.75C14.5834 19.3239 14.1167 19.7916 13.5416 19.7916H10.4166V4.1666C10.4166 3.27702 9.84993 2.48222 8.99792 2.18639L8.6895 2.08321H13.5416C14.1167 2.08321 14.5834 2.55089 14.5834 3.125V6.25C14.5834 6.82487 15.049 7.2916 15.625 7.2916C16.201 7.2916 16.6666 6.82487 16.6666 6.25V3.125C16.6666 1.40209 15.2645 0 13.5416 0H2.34375C2.30408 0 2.27089 0.0177384 2.23236 0.0228882C2.1822 0.018692 2.13432 0 2.0834 0C0.93441 0 0 0.934219 0 2.08321V20.8332C0 21.7228 0.566673 22.5176 1.41869 22.8134L7.68757 24.9031C7.90005 24.9687 8.11138 25 8.3334 25C9.48238 25 10.4166 24.0656 10.4166 22.9166V21.875H13.5416C15.2645 21.875 16.6666 20.4729 16.6666 18.75V14.5832C16.6666 14.0083 16.201 13.5416 15.625 13.5416Z"
+                            fill="#CE2127" />
+                        <path
+                            d="M24.695 9.6801L20.5282 5.5135C20.2304 5.21557 19.7824 5.12593 19.3929 5.28729C19.0044 5.44884 18.7501 5.82897 18.7501 6.24993V9.37493H14.5835C14.0085 9.37493 13.5417 9.84146 13.5417 10.4165C13.5417 10.9916 14.0085 11.4581 14.5835 11.4581H18.7501V14.5831C18.7501 15.0041 19.0044 15.3842 19.3929 15.5458C19.7824 15.7071 20.2304 15.6175 20.5282 15.3197L24.695 11.153C25.1022 10.7457 25.1022 10.0873 24.695 9.6801Z"
+                            fill="#CE2127" />
+                    </svg>
+                    <span class="logout-text">
+                        Logout
+                    </span>
+                </div>
+            </a></li>
+            <!-- Add other tabs here -->
+        </div>
+        <div class="content-area">
+            <h2 class="welcome-message">
+                Welcome to the Cloud Etel! 👋🏻
+            </h2>
+            <div id="configurewan" class="tabcontent">
+                <!-- Include the content of configure.html here -->
+                <h2 class="heading">Configure WAN Interface</h2>
+                <form method="post" action="{% url 'contact' tab_name='configurewan' %}">
+                    {% csrf_token %}
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="id_ip_address">IP Address</label>
+                            {{ form.ip_address }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_netmask">Netmask</label>
+                            {{ form.netmask }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_gateway">Gateway</label>
+                            {{ form.gateway }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_primary_dns">Primary DNS</label>
+                            {{ form.primary_dns }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_secondary_dns">Secondary DNS</label>
+                            {{ form.secondary_dns }}
+                        </div>
+                        <div class="form-group"> <!-- Full width for protocol field -->
+                            <label for="id_protocol">Protocol</label>
+                            {{ form.protocol }}
+                        </div>
+                    </div>
+                    <button type="submit" name="submit_network_settings_form" class="submitbtn">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Inject the status value from Django to JavaScript
+        const status1 = {{ status|yesno:"true,false" }};  // 'true' if status=True, 'false' if status=False
+
+        // Select the Register tab element
+        const registerTab = document.querySelector('.register-tab');
+
+        // Show or hide the Register tab based on the status
+        if (status1) {
+            registerTab.style.display = 'inline-block';  // Show the tab
+        } else {
+            registerTab.style.display = 'none';  // Hide the tab
+        }
+
+
+
+
+        $(document).ready(function () {
+            // Handle tab clicking and loading content via AJAX
+            $('.tablink').click(function (e) {
+                e.preventDefault(); // Prevent default link behavior
+                const tabName = $(this).data('tab'); // Get the tab identifier
+
+                if (tabName === 'logout') {
+                    // Optionally confirm logout
+                    if (confirm('Are you sure you want to log out?')) {
+                        window.location.href = '/logout'; // Redirect to the logout URL
+                    }
+                } else {
+
+                    // Make AJAX request to load the content of the clicked tab
+                    $.ajax({
+                        url: `/contact/${tabName}/`,  // Define a URL endpoint for fetching the tab content
+                        type: 'GET',
+                        success: function (response) {
+                            // Replace the current content with the fetched tab content
+                            $('.tabcontent').html(response);
+
+                            // Re-bind the form submit handler to the newly loaded form
+                            bindFormSubmit();
+                        },
+                        error: function () {
+                            alert('Error loading content');
+                        }
+                    });
+                }
+            });
+
+            function getCSRFToken() {
+                return $('input[name="csrfmiddlewaretoken"]').val();
+            }
+
+            function bindFormSubmit() {
+                $('form').on('submit', function (e) {
+                    e.preventDefault(); // Prevent the default form submission
+
+                    const formData = $(this).serialize(); // Serialize the form data
+
+                    // Send the form data via AJAX
+                    $.ajax({
+                        url: $(this).attr('action'),  // The form's action URL
+                        type: $(this).attr('method'), // The form's method (POST)
+                        data: formData,
+                        headers: { 'X-CSRFToken': getCSRFToken() }, // Include CSRF token in the request headers
+                        success: function (response) {
+                            // Handle the success response, e.g., show a success message
+                            alert('Form submitted successfully!');
+                            // Optionally update parts of the page without a full reload
+                            // $('.tabcontent').html(response);
+                        },
+                        error: function () {
+                            alert('Error submitting form');
+                        }
+                    });
+                });
+            }
+
+            // Bind form submit handler initially in case there's already a form loaded
+            bindFormSubmit();
+        });
+    </script>
+
+</body>
+
+</html>
