@@ -322,7 +322,7 @@ def dashboard(request):
                     current_date = datetime.today().date()
 
                     # Compare dates
-                    if current_date > expiry_date:
+                    if current_date < expiry_date:
                         status = "false"
                     else:
                         status = "true"
