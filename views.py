@@ -323,13 +323,13 @@ def dashboard(request):
 
                     # Compare dates
                     if current_date > expiry_date:
-                        status = False
+                        status = "false"
                     else:
-                        status = True
+                        status = "true"
                 else:
-                    status = True
+                    status = "true"
             else:
-                status = True                
+                status = "true"               
             wan_intfc_info = get_wan_info()                    
             with open("/etc/netplan/00-installer-config.yaml", "r") as f:
                 network_config = yaml.safe_load(f)

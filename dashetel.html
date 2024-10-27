@@ -297,19 +297,21 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const status1 = JSON.parse('{{ status|json_script:"status" }}');  // Boolean via JSON
+        // Inject the status value from Django into JavaScript safely
+        const status1 = {{ status|lower }};  // 'true' or 'false' as lowercase string
 
-        console.log("Status from Django (via JSON):", status1);
+        // Print the status to the console for debugging
+        console.log("Status from Django:", status1);
+
         // Select the Register tab element
         const registerTab = document.querySelector('.register-tab');
 
         // Show or hide the Register tab based on the status
-        if (status1) {
+        if (status1 === "true") {
             registerTab.style.display = 'inline-block';  // Show the tab
         } else {
             registerTab.style.display = 'none';  // Hide the tab
         }
-
 
 
 
