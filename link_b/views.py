@@ -266,54 +266,7 @@ def  validateIP(ip_address):
             return True    
     return False
 
-@csrf_exempt
-def lan_config(request):
-    try:
-        data = json.loads(request.body)
-        ip_address = data.get("ipaddress")
-        if not (validateIP(ip_address)):
-            response = {"message": "Error: IP should be in private range"} 
-            print(response)  
-            return JsonResponse(response, safe=False)
-        netmask = prefix_len_to_netmask(ip_address.split("/")[1])
-        ip_addr = ip_address.split("/")[0]               
-        
-        ip_addresses = get_ip_addresses(ip_addr, netmask) 
-        print(ip_addresses["Subnet_ID"]) 
-        lan_address = ip_addresses["Subnet_ID"]
-        print(ip_addresses[ "Broadcast_IP"])
-        if ip_addr == ip_addresses["Subnet_ID"] or ip_addr ==  ip_addresses[ "Broadcast_IP"]:
-            response = {"message": "Error: Either Subnet ID or Broadcast IP is not able to assign"}  
-            print(response) 
-            return JsonResponse(response, safe=False)
-        with open("/etc/netplan/00-installer-config.yaml", "r") as f:
-            network_config = yaml.safe_load(f)
-            f.close()
-        network_config["network"]["ethernets"]["eth1"]["addresses"] = [ip_address]
-        with open("/etc/netplan/00-installer-config.yaml", "w") as f:
-            yaml.dump(network_config, f, default_flow_style=False)
-            f.close()
-        os.system("netplan apply")
 
-        #configuring DHCP Range accordingly 
-        
-        dhcp_start_address = ip_addresses["Host_IPs"][0]
-        dhcp_end_address = ip_addresses["Host_IPs"][1]                             
-        domain_name = "8.8.8.8"
-        optional_dns = "8.8.4.4"
-        bracket = "{"
-        closebracket ="}"                
-        #Configure dhcpd.conf file
-        with open("/etc/dhcp/dhcpd.conf", "w") as f:
-            f.write(f"default-lease-time 600;\nmax-lease-time 7200;\nauthoritative;\nsubnet {lan_address} netmask {netmask} {bracket} \n range {dhcp_start_address} {dhcp_end_address}; \n option routers {ip_addr}; \n option subnet-mask {netmask}; \n option domain-name-servers {domain_name}, {optional_dns}; \n{closebracket}")
-            f.close() 
-        os.system("systemctl restart isc-dhcp-server")   
-        response = {"message": "Lan address configured successfully"}            
-        
-    except Exception as e:
-        response = {"message": f"Error: {e}"} 
-    print(response)
-    return JsonResponse(response, safe=False)
 
 def validate_dns_server(dns_ip, domain='google.com'):
     try:
@@ -355,6 +308,21 @@ def get_lan_info():
                     lan_addr = str(address.address)+"/"+str(pre_len)
                     return lan_addr 
     return lan_addr  
+
+def get_wan_info():
+    interface = psutil.net_if_addrs()
+    lan_addr = "none"     
+    for intfc_name in interface:
+        if intfc_name == "eth0":
+            addresses = interface[intfc_name]
+            for address in addresses:      
+                if address.family == 2:                                    
+                    
+                    pre_len = IPAddress(address.netmask).netmask_bits()
+                    lan_addr = str(address.address)+"/"+str(pre_len)
+                    return lan_addr 
+    return lan_addr  
+
 def is_ip_in_network(ip, network):
     try:
         # Convert IP and network to objects
@@ -450,6 +418,59 @@ def lan_info(request):
     print(response)
     return JsonResponse(response, safe=False)
 
+@csrf_exempt
+def lan_config(request):
+    try:
+        data = json.loads(request.body)
+        ip_address = data.get("ipaddress")
+        if not (validateIP(ip_address)):
+            response = {"message": "Error: IP should be in private range"} 
+            print(response)  
+            return JsonResponse(response, safe=False)
+        netmask = prefix_len_to_netmask(ip_address.split("/")[1])
+        ip_addr = ip_address.split("/")[0]       
+        ip_addresses = get_ip_addresses(ip_addr, netmask) 
+        wan_info = get_wan_info()
+        if is_ip_in_network(ip_addr, wan_info):
+            response = {"message": "Error: Conflict with WAN IP Range"}  
+            print(response) 
+            return JsonResponse(response, safe=False)
+        
+        print(ip_addresses["Subnet_ID"]) 
+        lan_address = ip_addresses["Subnet_ID"]
+        print(ip_addresses[ "Broadcast_IP"])
+        if ip_addr == ip_addresses["Subnet_ID"] or ip_addr ==  ip_addresses[ "Broadcast_IP"]:
+            response = {"message": "Error: Either Subnet ID or Broadcast IP is not able to assign"}  
+            print(response) 
+            return JsonResponse(response, safe=False)
+        with open("/etc/netplan/00-installer-config.yaml", "r") as f:
+            network_config = yaml.safe_load(f)
+            f.close()
+        network_config["network"]["ethernets"]["eth1"]["addresses"] = [ip_address]
+        with open("/etc/netplan/00-installer-config.yaml", "w") as f:
+            yaml.dump(network_config, f, default_flow_style=False)
+            f.close()
+        os.system("netplan apply")
+
+        #configuring DHCP Range accordingly 
+        
+        dhcp_start_address = ip_addresses["Host_IPs"][0]
+        dhcp_end_address = ip_addresses["Host_IPs"][1]                             
+        domain_name = "8.8.8.8"
+        optional_dns = "8.8.4.4"
+        bracket = "{"
+        closebracket ="}"                
+        #Configure dhcpd.conf file
+        with open("/etc/dhcp/dhcpd.conf", "w") as f:
+            f.write(f"default-lease-time 600;\nmax-lease-time 7200;\nauthoritative;\nsubnet {lan_address} netmask {netmask} {bracket} \n range {dhcp_start_address} {dhcp_end_address}; \n option routers {ip_addr}; \n option subnet-mask {netmask}; \n option domain-name-servers {domain_name}, {optional_dns}; \n{closebracket}")
+            f.close() 
+        os.system("systemctl restart isc-dhcp-server")   
+        response = {"message": "Lan address configured successfully"}            
+        
+    except Exception as e:
+        response = {"message": f"Error: {e}"} 
+    print(response)
+    return JsonResponse(response, safe=False)
 
 
 
