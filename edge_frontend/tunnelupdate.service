@@ -1,0 +1,12 @@
+[Unit]
+Description=Check Tunnel Connectivity Between Branches
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/reach/reachwan/
+ExecStart=/usr/bin/python3 tunnel_status_backup.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

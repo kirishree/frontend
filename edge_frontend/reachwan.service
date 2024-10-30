@@ -1,0 +1,12 @@
+[Unit]
+Description=ReachWan Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/reach/
+ExecStart=/usr/bin/python3 reachwan.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
