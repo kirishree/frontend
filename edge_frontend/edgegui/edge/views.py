@@ -116,15 +116,19 @@ def get_default_route_info():
         i = 0
         for line in output.split('\n'):
             if '0.0.0.0/0' in line:                
+                print("default", line)
                 i = 1
-            if i > 0 and i < 5:
-                i = i+1
-            if i == 5:
-                i = i+1
-                default_route_info = line.split("via")[1].split(" ")[1] 
-                print(default_route_info)
                 break
-        return default_route_info
+        if i == 1:
+            for line in output.split('\n'):
+                if "ipv4 via" in line:
+                    print(line)
+                    try:
+                        default_route_info = line.split("via")[1].split(" ")[1] 
+                    except (IndexError, ValueError):
+                        default_route_info = None                    
+                    print(default_route_info)
+        return default_route_info        
     except subprocess.CalledProcessError as e:
         print("Error occurred:", e)
         return None
